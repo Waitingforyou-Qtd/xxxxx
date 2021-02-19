@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script src="./vue.js"></script>
+	</head>
+	<body>
+		<template>
+			<div class="home">
+				<HelloWorld ref="mychild"></HelloWorld>
+				<div @click="clickParent">click me</div>
+			</div>
+		</template>
+		<script>
+			import HelloWorld from '@/components/HelloWorld.vue'
+			export default {
+				name: 'home',
+				components: {
+					HelloWorld
+				},
+				methods: {
+					clickParent() {
+						this.$refs.mychild.parentHandleclick('嘿嘿嘿')
+					}
+				}
+			}
+		</script>
+		<template>
+			<div class="hello">
+				<h1>我是HelloWorld组件</h1>
+			</div>
+		</template>
+		<script>
+			export default {
+				name: 'HelloWorld',
+				created() {},
+				methods: {
+					parentHandleclick(e) {
+						console.log(e)
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

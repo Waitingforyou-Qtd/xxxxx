@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var arr = [1,23,12,7,3,28,2,14]
+      for (var j = 0; j < arr.length - 1; j++) {
+        for (var i = 0; i < arr.length - 1 - j; i++) {
+          if (arr[i + 1] < arr[i]) {
+            var temp = arr[i + 1]
+            arr[i + 1] = arr[i]
+            arr[i] = temp
+          }
+        }
+      }
+      console.log(arr)
+    </script>
+  </body>
+</html>

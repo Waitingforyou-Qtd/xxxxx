@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			td,
+			th {
+				border: 1px solid black;
+				line-height: 35px;
+				font-size: 12px;
+				text-align: center;
+			}
+		</style>
+		<script src="./js/axios.js"></script>
+		<script src="./js/vue2.5.17.js"></script>
+	</head>
+	<body>
+		<!-- 要被 vue 实例所控制的区域 -->
+		<div id="app">
+			<div class="container">
+				<my-cart></my-cart>
+			</div>
+		</div>
+
+		<script>
+			var CartList = {
+				props: ['cartListData'],
+				template: `
+				<div>
+            <table>
+                <thead>
+                    <tr><th>商品编号</th><th>商品名称</th><th>商品图片</th><th>商品描述</th>
+                    <th>市场价</th><th>优惠价</th><th>库存数量</th><th>点击量</th><th>上架时间</th>
+                    </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in cartListData" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.title}}</td>
+                    <td><img :src="item.img_url" alt=""> </td>
+                    <td>{{item.zhaiyao}}</td>
+                    <td>{{item.market_price}}</td>
+                    <td>{{item.sell_price}}</td>
+                    <td v-if="item.stock_quantity<20" style="background-color: red;">{{item.stock_quantity}}</td>
+                    <td v-else-if="item.stock_quantity<100" style="background-color: orange;">{{item.stock_quantity}}</td>
+                    <td v-else>{{item.stock_quantity}}</td>
+                    <td>{{item.click}}</td>
+                    <td>{{item.add_time|dateFormat}}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>`,
+				computed: {
+					good: function () {}
+				}
+			}
+
+			Vue.component('my-cart', {
+				data: function () {
+					return {
+						cartListData: []
+					}
+				},
+				created() {
+					this.getInitData()
+				},
+				methods: {
+					getInitData() {
+						axios.get('http://www.liulongbin.top:3005/api/getgoods?pageindex=0').then((res) => {
+							console.log(res.data.message)
+							this.cartListData = res.data.message
+						})
+					}
+				},
+				template: `
+				<div class='cart'>
+				<cart-list :cartListData='cartListData'></cart-list>
+				</div>
+				`,
+				components: {
+					'cart-list': CartList
+				}
+			})
+
+			// 注册时间过滤器
+			Vue.filter('dateFormat', function (originVal) {
+				const dt = new Date(originVal)
+				const y = dt.getFullYear()
+				const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+				const d = (dt.getDate() + '').padStart(2, '0')
+
+				const hh = (dt.getHours() + '').padStart(2, '0')
+				const mm = (dt.getMinutes() + '').padStart(2, '0')
+				const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+				return `${y}-${m}-${d}`
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {}
+			})
+		</script>
+	</body>
+</html>

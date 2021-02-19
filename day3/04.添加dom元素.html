@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>practise</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta name="viewport" id="WebViewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+	</head>
+
+	<body>
+		<div id="a">
+			<p>姓名 1</p>
+			<p>姓名 2</p>
+			<p>姓名 3</p>
+			<p>姓名 4</p>
+			<p class="p6">姓名 6</p>
+			<p>姓名 7</p>
+		</div>
+		<script>
+			var p5 = document.createElement('p')
+			p5.innerHTML = '姓名 5'
+			var p6 = document.getElementsByClassName('p6')[0]
+			var a = document.querySelector('#a')
+			a.insertBefore(p5, p6)
+			var ps = a.querySelectorAll('p')
+			index = ps.length - 1
+			ps[index].remove()
+		</script>
+	</body>
+</html>
